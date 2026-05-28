@@ -51,7 +51,7 @@ jobs:
     - name: Install OpenJDK
       uses: actions/setup-java@v4
       with:
-        distribution: 'termurin'
+        distribution: 'temurin'
         java-version: '8'
  
     - name: Install repo
