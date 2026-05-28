@@ -195,6 +195,7 @@ TW_NO_SCREEN_BLANK := true
 TW_NO_BATT_PERCENT := false
 TARGET_USES_MKE2FS := true
 TW_INCLUDE_NTFS_3G := true
+BOARD_RAMDISK_USE_LZMA := true
 
 ## TWRP-Specific configuration
 TW_EXCLUDE_DEFAULT_USB_INIT := true
