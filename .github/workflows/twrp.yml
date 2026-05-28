@@ -18,7 +18,7 @@ env:
   DT_LINK: https://github.com/uratsakidogi1488/WP15_TWRP.git
   DT_PATH: device/oukitel/WP15
   TARGET: bootimage
-  TZ: Asia/manila
+  TZ: Europe/Moscow
 #  DT_BRANCH: WIP
 
 jobs:
