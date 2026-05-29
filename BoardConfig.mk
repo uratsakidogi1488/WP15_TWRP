@@ -112,6 +112,8 @@ BOARD_SUPER_PARTITION_SIZE := 6442450944
 BOARD_SUPER_PARTITION_GROUPS := main
 BOARD_MAIN_SIZE := 6438256640 # (BOARD_SUPER_PARTITION_SIZE - 4MB)
 BOARD_MAIN_PARTITION_LIST :=  system product vendor odm
+BOARD_SUPER_PARTITION_ALIGNMENT := 65536
+BOARD_SUPER_PARTITION_METADATA_DEVICE := super
 
 # System as root
 BOARD_BUILD_SYSTEM_ROOT_IMAGE := false
@@ -161,13 +163,13 @@ BOARD_ROOT_EXTRA_FOLDERS += metadata
 #TW_CRYPTO_FS_OPTIONS := "rw,seclabel,nosuid,nodev,noatime,noauto_da_alloc,inlinecrypt,resgid=1065,errors=panic,data=ordered"
 
 # Additional binaries & libraries needed for recovery (ЗАКОММЕНТИРОВАНО)
-#TARGET_RECOVERY_DEVICE_MODULES += \
-#    libkeymaster4 \
-#    libpuresoftkeymasterdevice
+TARGET_RECOVERY_DEVICE_MODULES += \
+    libkeymaster4 \
+    libpuresoftkeymasterdevice
 
-#TW_RECOVERY_ADDITIONAL_RELINK_LIBRARY_FILES += \
-#    $(TARGET_OUT_SHARED_LIBRARIES)/libkeymaster4.so \
-#    $(TARGET_OUT_SHARED_LIBRARIES)/libpuresoftkeymasterdevice.so
+TW_RECOVERY_ADDITIONAL_RELINK_LIBRARY_FILES += \
+    $(TARGET_OUT_SHARED_LIBRARIES)/libkeymaster4.so \
+    $(TARGET_OUT_SHARED_LIBRARIES)/libpuresoftkeymasterdevice.so
 
 # Properties
 TARGET_SYSTEM_PROP += $(DEVICE_PATH)/system.prop
@@ -195,7 +197,8 @@ TW_NO_SCREEN_BLANK := true
 TW_NO_BATT_PERCENT := false
 TARGET_USES_MKE2FS := true
 TW_INCLUDE_NTFS_3G := true
-BOARD_RAMDISK_USE_LZMA := true
+BOARD_RAMDISK_USE_LZMA := false
+MINIVNDK_VERSION := true
 
 ## TWRP-Specific configuration
 TW_EXCLUDE_DEFAULT_USB_INIT := true
