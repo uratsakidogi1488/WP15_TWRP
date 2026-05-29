@@ -10,16 +10,16 @@ Build.BRAND=MTK
 #
 # ODM_BUILD_PROPERTIES
 #
-ro.internal.version=TF919_OQ_S89_6833_R0_RUSSIA_V1.2.4_S220527
+ro.internal.version=TF919_OQ_S89_6833_R0_RUSSIA_V1.4.0_S230215
 ro.product.board=OUKITEL
 ro.cus.bt.name=WP15
 ro.tee_support=1
 ro.mtk_trustkernel_tee_support=1
 ro.mtk_tee_check_support=1
 ro.mtk_platform=MT6853
-ro.build.custom_int_version=TF919_OQ_S89_6833_R0_RUSSIA_V1.2.4_S220527
-ro.build.custom_version=OUKITEL_WP15_RU_V05_20220527
-ro.build.version.base_os=OUKITEL/WP15_RU/WP15:11/RP1A.200720.011/1640680713:user/release-keys
+ro.build.custom_int_version=TF919_OQ_S89_6833_R0_RUSSIA_V1.4.0_S230215
+ro.build.custom_version=OUKITEL_WP15_MT6833_RU_V07_20230215
+ro.build.version.base_os=OUKITEL/WP15_RU/WP15:11/RP1A.200720.011/1676394029:user/release-keys
 #
 # ADDITIONAL VENDOR BUILD PROPERTIES
 #

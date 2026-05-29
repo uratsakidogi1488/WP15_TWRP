@@ -1,11 +1,5 @@
 on post-fs
-    # Create the mountpoint for persist partition
-    mkdir /mnt/vendor/persist 0771 system system
-    
-    # Mount the persist partition on /mnt/vendor/persist
-    mount ext4 /dev/block/by-name/persist /mnt/vendor/persist rw
-
-write /proc/bootprof "tkcore: prepare system ta path"
+	write /proc/bootprof "tkcore: prepare system ta path"
 
 	restorecon /mnt/vendor/persist
 	mkdir /mnt/vendor/persist/t6
@@ -70,23 +64,13 @@ service teed /vendor/bin/teed \
     --logpath /data/vendor/t6/tkcore.log \
     --proprefix vendor.trustkernel
 	capabilities SYS_RAWIO
-    class core
-    user root system
-    group root system
-    disabled
-    seclabel u:r:recovery:s0
+	user system
+	group system
+	class core
 
 service tee_check_keybox /vendor/bin/tee_check_keybox
-    class main
-    disabled
-    oneshot
-    user root system
-    group root system
-    disabled
-    seclabel u:r:recovery:s0
-
-on post-fs-data
-    # Create /data/vendor/key_provisioning dir and get proper encryption policy installed
-    # Key Installation
-    mkdir /data/vendor/key_provisioning 0771 system system
-
+       user system
+       group system
+       class main
+       disabled
+       oneshot

@@ -150,15 +150,15 @@ BOARD_USES_METADATA_PARTITION := true
 BOARD_ROOT_EXTRA_FOLDERS += metadata
 
 # Crypto (ОТКЛЮЧЕНО)
-#TW_INCLUDE_CRYPTO := true
-#TW_INCLUDE_CRYPTO_FBE := true
+TW_INCLUDE_CRYPTO := true
+TW_INCLUDE_CRYPTO_FBE := true
 #TW_INCLUDE_FBE_METADATA_DECRYPT := true
 #TW_USE_FSCRYPT_POLICY := 2
 #TW_PREPARE_DATA_MEDIA_EARLY := true
 
-#TW_CRYPTO_FS_TYPE := "f2fs"
-#TW_CRYPTO_REAL_BLKDEV := "/dev/block/by-name/userdata"
-#TW_CRYPTO_MNT_POINT := "/data"
+TW_CRYPTO_FS_TYPE := "f2fs"
+TW_CRYPTO_REAL_BLKDEV := "/dev/block/by-name/userdata"
+TW_CRYPTO_MNT_POINT := "/data"
 #TW_CRYPTO_FS_OPTIONS := "nosuid,nodev,noatime,discard,noauto_da_alloc,data=ordered"
 #TW_CRYPTO_FS_OPTIONS := "rw,seclabel,nosuid,nodev,noatime,noauto_da_alloc,inlinecrypt,resgid=1065,errors=panic,data=ordered"
 
@@ -173,7 +173,7 @@ TW_RECOVERY_ADDITIONAL_RELINK_LIBRARY_FILES += \
 
 # Properties
 TARGET_SYSTEM_PROP += $(DEVICE_PATH)/system.prop
-#TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/recovery/root/system/etc/recovery.fstab
+TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/recovery/root/system/etc/recovery.fstab
 TARGET_RECOVERY_INITRC := $(DEVICE_PATH)/recovery/root/init.recovery.mt6833.rc
 
 # Charger
@@ -209,6 +209,8 @@ TW_EXCLUDE_APEX := true
 TW_INCLUDE_RESETPROP := true
 TW_INCLUDE_REPACKTOOLS := true
 TW_INCLUDE_LIBRESETPROP :=true
+TW_INCLUDE_LIBRESETPROP := true
+TW_INCLUDE_REPACKTOOLS := true
 
 # Debug
 TWRP_INCLUDE_LOGCAT := true

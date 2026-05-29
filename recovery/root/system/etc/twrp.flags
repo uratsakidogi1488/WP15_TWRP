@@ -1,63 +1,75 @@
-/system                   ext4     system                               flags=display=system;logical;slotselect;backup=1;flashimg=1
-/vendor                   ext4     vendor                               flags=display=vendor;logical;slotselect;backup=1;flashimg=1
-/product                  ext4     product                              flags=display=product;logical;slotselect;backup=1;flashimg=1
-/metadata                 ext4     /dev/block/by-name/metadata          flags=display=metadata;backup=1;flashimg=1
-/data                     f2fs     /dev/block/by-name/userdata          flags=display=data;backup=1;flashimg=1
-/mnt/vendor/protect_f     ext4     /dev/block/by-name/protect1          flags=display=protect_f;backup=1;flashimg=1
-/mnt/vendor/protect_s     ext4     /dev/block/by-name/protect2          flags=display=protect_s;backup=1;flashimg=1
-/mnt/vendor/nvdata        ext4     /dev/block/by-name/nvdata            flags=display=nvdata;backup=1;flashimg=1
-/mnt/vendor/nvcfg         ext4     /dev/block/by-name/nvcfg             flags=display=nvcfg;backup=1;flashimg=1
-/mnt/vendor/persist       ext4     /dev/block/by-name/persist           flags=display=persist;backup=1;flashimg=1
-auto                      auto     /devices/platform/externdevice*      flags=display=auto;backup=1;flashimg=1
-auto                      vfat     /devices/platform/mt_usb*            flags=display=auto;backup=1;flashimg=1
-/persistent               emmc     /dev/block/by-name/frp               flags=display=persistent;backup=1;flashimg=1
-/nvram                    emmc     /dev/block/by-name/nvram             flags=display=nvram;backup=1;flashimg=1
-/proinfo                  emmc     /dev/block/by-name/proinfo           flags=display=proinfo;backup=1;flashimg=1
-/bootloader               emmc     /dev/block/by-name/lk                flags=display=bootloader;backup=1;flashimg=1
-/bootloader2              emmc     /dev/block/by-name/lk2               flags=display=bootloader2;backup=1;flashimg=1
-/para                     emmc     /dev/block/by-name/para              flags=display=para;backup=1;flashimg=1
-/misc                     emmc     /dev/block/by-name/misc              flags=display=misc;backup=1;flashimg=1
-/boot                     emmc     /dev/block/by-name/boot              flags=display=boot;slotselect;backup=1;flashimg=1
-/vbmeta_vendor            emmc     /dev/block/by-name/vbmeta_vendor     flags=display=vbmeta_vendor;slotselect;backup=1;flashimg=1
-/vbmeta_system            emmc     /dev/block/by-name/vbmeta_system     flags=display=vbmeta_system;slotselect;backup=1;flashimg=1
-/logo                     emmc     /dev/block/by-name/logo              flags=display=logo;backup=1;flashimg=1
-/expdb                    emmc     /dev/block/by-name/expdb             flags=display=expdb;backup=1;flashimg=1
-/seccfg                   emmc     /dev/block/by-name/seccfg            flags=display=seccfg;backup=1;flashimg=1
-/tee1                     emmc     /dev/block/by-name/tee1              flags=display=tee1;backup=1;flashimg=1
-/tee2                     emmc     /dev/block/by-name/tee2              flags=display=tee2;backup=1;flashimg=1
-/scp1                     emmc     /dev/block/by-name/scp1              flags=display=scp1;backup=1;flashimg=1
-/scp2                     emmc     /dev/block/by-name/scp2              flags=display=scp2;backup=1;flashimg=1
-/sspm_1                   emmc     /dev/block/by-name/sspm_1            flags=display=sspm_1;backup=1;flashimg=1
-/sspm_2                   emmc     /dev/block/by-name/sspm_2            flags=display=sspm_2;backup=1;flashimg=1
-/dpm_1                    emmc     /dev/block/by-name/dpm_1             flags=display=dpm_1;backup=1;flashimg=1
-/dpm_2                    emmc     /dev/block/by-name/dpm_2             flags=display=dpm_2;backup=1;flashimg=1
-/mcupm_1                  emmc     /dev/block/by-name/mcupm_1           flags=display=mcupm_1;backup=1;flashimg=1
-/mcupm_2                  emmc     /dev/block/by-name/mcupm_2           flags=display=mcupm_2;backup=1;flashimg=1
-/md1img                   emmc     /dev/block/by-name/md1img            flags=display=md1img;backup=1;flashimg=1
-/md1dsp                   emmc     /dev/block/by-name/md1dsp            flags=display=md1dsp;backup=1;flashimg=1
-/md1arm7                  emmc     /dev/block/by-name/md1arm7           flags=display=md1arm7;backup=1;flashimg=1
-/md3img                   emmc     /dev/block/by-name/md3img            flags=display=md3img;backup=1;flashimg=1
-/gz1                      emmc     /dev/block/by-name/gz1               flags=display=gz1;backup=1;flashimg=1
-/gz2                      emmc     /dev/block/by-name/gz2               flags=display=gz2;backup=1;flashimg=1
-/spmfw                    emmc     /dev/block/by-name/spmfw             flags=display=spmfw;backup=1;flashimg=1
-/pi_img                   emmc     /dev/block/by-name/pi_img            flags=display=pi_img;backup=1;flashimg=1
-/boot_para                emmc     /dev/block/by-name/boot_para         flags=display=boot_para;backup=1;flashimg=1
-/odmdtbo                  emmc     /dev/block/by-name/odmdtbo           flags=display=odmdtbo;backup=1;flashimg=1
-/dtbo                     emmc     /dev/block/by-name/dtbo              flags=display=dtbo;backup=1;flashimg=1
-/otp                      emmc     /dev/block/by-name/otp               flags=display=otp;backup=1;flashimg=1
-/vbmeta                   emmc     /dev/block/by-name/vbmeta            flags=display=vbmeta;backup=1;flashimg=1
+#=========================================================
+# ДИНАМИЧЕСКИЕ РАЗДЕЛЫ (SUPER)
+#=========================================================
+# Монтирование файловой системы (Для очистки и проводника)
+#=========================================================
+/system         ext4    /dev/block/mapper/system                     flags=display="System";slotselect;wipeingui
+/vendor         ext4    /dev/block/mapper/vendor                     flags=display="Vendor";slotselect;wipeingui
+/product        ext4    /dev/block/mapper/product                    flags=display="Product";slotselect;wipeingui
 
-#SDCARD  
-/external_sd    auto     /dev/block/mmcblk0p1  /dev/block/mmcblk0            flags=display="External_SDcard";storage;wipeingui;removable;fsflags="utf8"
+#=========================================================
+# Образы для бэкапа и прямой прошивки (.img)
+#=========================================================
+/system_image   emmc    /dev/block/mapper/system                     flags=display="System Image";slotselect;backup=1;flashimg=1
+/vendor_image   emmc    /dev/block/mapper/vendor                     flags=display="Vendor Image";slotselect;backup=1;flashimg=1
+/product_image  emmc    /dev/block/mapper/product                    flags=display="Product Image";slotselect;backup=1;flashimg=1
 
-#OTG
-/usbotg        auto     /dev/block/sdd1  /dev/block/sdd                     flags=display="Usb_Otg";storage;wipeingui;removable;fsflags="utf8"
+#=========================================================
+# ОСНОВНЫЕ РАЗДЕЛЫ ПАМЯТИ
+#=========================================================
+/metadata       ext4    /dev/block/by-name/metadata                  flags=display="Metadata"
+/data           f2fs    /dev/block/by-name/userdata                  flags=display="Data"
 
-#DYNAMIC
-/system_image            emmc     /dev/block/mapper/system                   flags=display=system_image;slotselect;backup=1;flashimg=1
-/system                  ext4     /dev/block/mapper/system                     flags=display=system;slotselect;backup=1;wipeingui
-/vendor_image            emmc     /dev/block/mapper/vendor                   flags=display=vendor_image;slotselect;backup=1;flashimg=1
-/vendor                  ext4     /dev/block/mapper/vendor                     flags=display=vendor;slotselect;backup=1;wipeingui
-/product_image            emmc     /dev/block/mapper/product                   flags=display=product_image;slotselect;backup=1;flashimg=1
-/product                  ext4     /dev/block/mapper/product                     flags=display=product;slotselect;backup=1;wipeingui
+#=========================================================
+# КРИТИЧЕСКИЙ БЭКАП (IMEI, СВЯЗЬ, НАСТРОЙКИ ПЛАТЫ)
+#=========================================================
+/nvram          emmc    /dev/block/by-name/nvram                     flags=display="NVRAM";backup=1
+/persistent     emmc    /dev/block/by-name/frp                       flags=display="FRP / Persistent";backup=1
+/proinfo        emmc    /dev/block/by-name/proinfo                   flags=display="Proinfo";backup=1
+/boot_para      emmc    /dev/block/by-name/boot_para                 flags=display="Boot Para";backup=1
+/seccfg         emmc    /dev/block/by-name/seccfg                    flags=display="Sec Config";backup=1
 
+#=========================================================
+# СИСТЕМНЫЕ ОБРАЗЫ И ЯДРО
+#=========================================================
+/boot           emmc    /dev/block/by-name/boot                      flags=display="Boot (Kernel)";slotselect;backup=1;flashimg=1
+/logo           emmc    /dev/block/by-name/logo                      flags=display="Logo (Boot Splash)";backup=1;flashimg=1
+/dtbo           emmc    /dev/block/by-name/dtbo                      flags=display="DTBO";backup=1;flashimg=1
+/vbmeta         emmc    /dev/block/by-name/vbmeta                    flags=display="VBMeta Type A";backup=1;flashimg=1
+/vbmeta_system  emmc    /dev/block/by-name/vbmeta_system             flags=display="VBMeta System";slotselect;backup=1;flashimg=1
+/vbmeta_vendor  emmc    /dev/block/by-name/vbmeta_vendor             flags=display="VBMeta Vendor";slotselect;backup=1;flashimg=1
+
+#=========================================================
+# ИНЖЕНЕРНЫЕ ПОДРАЗДЕЛЫ МЕДИАТЕК (ТОЛЬКО БЭКАП, В МЕНЮ НЕ ЛЕЗУТ)
+#=========================================================
+/bootloader     emmc    /dev/block/by-name/lk                        flags=display="LK (Bootloader)";backup=1
+/bootloader2    emmc    /dev/block/by-name/lk2                       flags=display="LK2 (Bootloader 2)";backup=1
+/para           emmc    /dev/block/by-name/para                      flags=display="Para";backup=1
+/misc           emmc    /dev/block/by-name/misc                      flags=display="Misc";backup=1
+/expdb          emmc    /dev/block/by-name/expdb                     flags=display="Expdb";backup=1
+/tee1           emmc    /dev/block/by-name/tee1                      flags=display="TEE 1";backup=1
+/tee2           emmc    /dev/block/by-name/tee2                      flags=display="TEE 2";backup=1
+/scp1           emmc    /dev/block/by-name/scp1                      flags=display="SCP 1";backup=1
+/scp2           emmc    /dev/block/by-name/scp2                      flags=display="SCP 2";backup=1
+/sspm_1         emmc    /dev/block/by-name/sspm_1                    flags=display="SSPM 1";backup=1
+/sspm_2         emmc    /dev/block/by-name/sspm_2                    flags=display="SSPM 2";backup=1
+/dpm_1          emmc    /dev/block/by-name/dpm_1                     flags=display="DPM 1";backup=1
+/dpm_2          emmc    /dev/block/by-name/dpm_2                     flags=display="DPM 2";backup=1
+/mcupm_1        emmc    /dev/block/by-name/mcupm_1                   flags=display="MCUPM 1";backup=1
+/mcupm_2        emmc    /dev/block/by-name/mcupm_2                   flags=display="MCUPM 2";backup=1
+/md1img         emmc    /dev/block/by-name/md1img                    flags=display="Modem Firmware";backup=1
+/md1dsp         emmc    /dev/block/by-name/md1dsp                    flags=display="Modem DSP";backup=1
+/md1arm7        emmc    /dev/block/by-name/md1arm7                   flags=display="Modem ARM7";backup=1
+/md3img         emmc    /dev/block/by-name/md3img                    flags=display="Modem 3";backup=1
+/gz1            emmc    /dev/block/by-name/gz1                       flags=display="GZ 1";backup=1
+/gz2            emmc    /dev/block/by-name/gz2                       flags=display="GZ 2";backup=1
+/spmfw          emmc    /dev/block/by-name/spmfw                     flags=display="SPM FW";backup=1
+/pi_img         emmc    /dev/block/by-name/pi_img                    flags=display="PI Image";backup=1
+/odmdtbo        emmc    /dev/block/by-name/odmdtbo                   flags=display="ODM DTBO";backup=1
+/otp            emmc    /dev/block/by-name/otp                       flags=display="OTP Block";backup=1
+
+#=========================================================
+# СЪЕМНЫЕ НАКОПИТЕЛИ (ФЛЭШКА И ОТГ)
+#=========================================================
+/external_sd    auto    /dev/block/mmcblk0p1  /dev/block/mmcblk0     flags=display="MicroSD Card";storage;wipeingui;removable;fsflags="utf8"
+/usbotg         auto    /dev/block/sdd1       /dev/block/sdd         flags=display="USB OTG";storage;wipeingui;removable;fsflags="utf8"
