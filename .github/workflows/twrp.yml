@@ -92,7 +92,7 @@ jobs:
       env:
        GITHUB_TOKEN: ${{ secrets.TEST }}
       with:
-       tag_name: Oukitel_WP15_RU_V05
+       tag_name: Oukitel_WP15_RU_V07
        name: TWRP37x_11_RU
        files: | 
          twrp/out/target/product/WP15/boot*.img
