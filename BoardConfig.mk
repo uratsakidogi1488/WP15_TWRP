@@ -217,6 +217,7 @@ MINIVNDK_VERSION := true
 TW_EXCLUDE_DEFAULT_USB_INIT := true
 TW_EXCLUDE_TWRPAPP := true
 TW_EXCLUDE_APEX := true
+TW_INCLUDE_LIBION := true
 
 # resetprop and magiskboot
 TW_INCLUDE_RESETPROP := true
