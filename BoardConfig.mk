@@ -21,6 +21,12 @@ DEVICE_PATH := device/oukitel/WP15
 # For building with minimal manifest
 ALLOW_MISSING_DEPENDENCIES := true
 
+# Переводим SELinux в permissive (разрешающий) режим для рекавери
+BOARD_KERNEL_CMDLINE += androidboot.selinux=permissive
+
+# Разрешаем инициализацию кастомных служб
+BOARD_RECOVERY_SEPOLICY_DIRS += device/oukitel/WP15/sepolicy
+
 # Architecture
 TARGET_ARCH := arm64
 TARGET_ARCH_VARIANT := armv8-a
@@ -135,26 +141,30 @@ BOARD_AVB_RECOVERY_KEY_PATH := external/avb/test/data/testkey_rsa2048.pem
 BOARD_AVB_RECOVERY_ALGORITHM := SHA256_RSA2048
 BOARD_AVB_RECOVERY_ROLLBACK_INDEX := $(PLATFORM_SECURITY_PATCH_TIMESTAMP)
 BOARD_AVB_RECOVERY_ROLLBACK_INDEX_LOCATION := 3
+BOARD_HAS_NO_SECURE_STORAGE := true
+TW_USE_FSCRYPT_POLICY := 0
+
 
 # Hack to get keymaster to recognize the key files
-#PLATFORM_SECURITY_PATCH := 2099-12-31
-#PLATFORM_VERSION := 16.1.0
-VENDOR_SECURITY_PATCH := $(PLATFORM_SECURITY_PATCH)
-PLATFORM_VERSION_LAST_STABLE := $(PLATFORM_VERSION)
-PLATFORM_SECURITY_PATCH := 2023-02-05
 PLATFORM_VERSION := 11
-#VENDOR_SECURITY_PATCH := $(PLATFORM_SECURITY_PATCH)
+PLATFORM_VERSION_LAST_STABLE := 11
+PLATFORM_SECURITY_PATCH := 2023-02-05
+VENDOR_SECURITY_PATCH := 2023-02-05
 
 # Metadata
 BOARD_USES_METADATA_PARTITION := true
 BOARD_ROOT_EXTRA_FOLDERS += metadata
 
 # Crypto (ОТКЛЮЧЕНО)
-TW_INCLUDE_CRYPTO := true
-TW_INCLUDE_CRYPTO_FBE := true
-TW_INCLUDE_FBE_METADATA_DECRYPT := true
-TW_USE_FSCRYPT_POLICY := 2
-TW_PREPARE_DATA_MEDIA_EARLY := true
+#TW_INCLUDE_CRYPTO := true
+#TW_INCLUDE_CRYPTO_FBE := true
+#TW_INCLUDE_FBE_METADATA_DECRYPT := true
+#TW_USE_FSCRYPT_POLICY := 2
+#TW_PREPARE_DATA_MEDIA_EARLY := true
+#TW_CRYPTO_SYSTEM_VOLD := false
+#TW_CRYPTO_USE_SYSTEM_VOLD := false
+#TW_DISABLE_KEYMASTER_DYNAMIC := true
+#TW_CRYPTO_SYSTEM_VOLD := false
 
 #TW_CRYPTO_FS_TYPE := "f2fs"
 #TW_CRYPTO_REAL_BLKDEV := "/dev/block/by-name/userdata"
@@ -163,11 +173,11 @@ TW_PREPARE_DATA_MEDIA_EARLY := true
 #TW_CRYPTO_FS_OPTIONS := "rw,seclabel,nosuid,nodev,noatime,noauto_da_alloc,inlinecrypt,resgid=1065,errors=panic,data=ordered"
 
 # Additional binaries & libraries needed for recovery (ЗАКОММЕНТИРОВАНО)
-TARGET_RECOVERY_DEVICE_MODULES += \
+#TARGET_RECOVERY_DEVICE_MODULES += \
     libkeymaster4 \
     libpuresoftkeymasterdevice
 
-TW_RECOVERY_ADDITIONAL_RELINK_LIBRARY_FILES += \
+#TW_RECOVERY_ADDITIONAL_RELINK_LIBRARY_FILES += \
     $(TARGET_OUT_SHARED_LIBRARIES)/libkeymaster4.so \
     $(TARGET_OUT_SHARED_LIBRARIES)/libpuresoftkeymasterdevice.so
 
@@ -199,6 +209,8 @@ TARGET_USES_MKE2FS := true
 TW_INCLUDE_NTFS_3G := true
 BOARD_RAMDISK_USE_LZMA := false
 MINIVNDK_VERSION := true
+TW_DISABLE_KEYMASTER_DYNAMIC := true
+TW_CRYPTO_SYSTEM_VOLD := false
 
 ## TWRP-Specific configuration
 TW_EXCLUDE_DEFAULT_USB_INIT := true
@@ -208,7 +220,6 @@ TW_EXCLUDE_APEX := true
 # resetprop and magiskboot
 TW_INCLUDE_RESETPROP := true
 TW_INCLUDE_REPACKTOOLS := true
-TW_INCLUDE_LIBRESETPROP :=true
 TW_INCLUDE_LIBRESETPROP := true
 TW_INCLUDE_REPACKTOOLS := true
 
@@ -216,7 +227,7 @@ TW_INCLUDE_REPACKTOOLS := true
 TWRP_INCLUDE_LOGCAT := true
 TARGET_USES_LOGD := true
 
-# Resolution
+#  Resolution
 TW_THEME := portrait_hdpi
 DEVICE_SCREEN_WIDTH := 720
 DEVICE_SCREEN_HEIGHT := 1600
