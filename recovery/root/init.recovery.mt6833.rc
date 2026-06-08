@@ -2,6 +2,14 @@ on init
     setprop sys.usb.configfs 1
     setprop sys.usb.ffs.aio_compat 1
 
+    # Подготовка папок для TrustKernel и безопасности MTK
+    mkdir /mnt/vendor 0771 system system
+    mkdir /mnt/vendor/protect_f 0770 root system
+    mkdir /mnt/vendor/protect_s 0770 root system
+    mkdir /mnt/vendor/nvdata 0771 root system
+    mkdir /mnt/vendor/nvcfg 0771 root system
+    mkdir /mnt/vendor/persist 0771 root system
+
 on fs
     wait /dev/block/platform/bootdevice/by-name/super
     mount_all /etc/recovery.fstab --early
@@ -13,7 +21,27 @@ on post-fs
     wait /dev/block/mmcblk0boot0 2
     symlink /dev/block/sda /dev/block/mmcblk0boot0
     symlink /dev/block/sdb /dev/block/mmcblk0boot1
-    
+
     # A/B support
     symlink /dev/block/platform/bootdevice/by-name/preloader_a /dev/block/platform/bootdevice/by-name/preloader_emmc_a
-    symlink /dev/block/platform/bootdevice/by-name/preloader_b /dev/block/platform/bootdevice/by-name/preloader_emmc_b
+    symlink /dev/block/platform/bootdevice/by-name/preloader_b /dev/block/platform/bootdevice/by-name/preloader_b
+
+on post-fs-data
+    # Запуск демона TrustKernel (T6)
+    start teed
+    # Запуск кеймастера
+    start vendor.keymaster-4-0
+
+# --- СЛУЖБЫ КРИПТОГРАФИИ ---
+
+service teed /vendor/bin/teed
+    user root
+    group root
+    disabled
+    seclabel u:r:recovery:s0
+
+service vendor.keymaster-4-0 /vendor/bin/hw/android.hardware.keymaster@4.0-service.mediatek
+    user root
+    group root
+    disabled
+    seclabel u:r:recovery:s0
