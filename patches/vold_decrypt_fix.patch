@@ -1,0 +1,11 @@
+--- a/bootable/recovery/crypto/vold_decrypt/Android.mk
++++ b/bootable/recovery/crypto/vold_decrypt/Android.mk
+@@ -71,7 +71,7 @@ include $(BUILD_SHARED_LIBRARY)
+ # Prebuilt init.recovery.vold_decrypt.rc
+ include $(CLEAR_VARS)
+ LOCAL_MODULE := init.recovery.vold_decrypt.rc
+-LOCAL_MODULE_CLASS := RECOVERY_EXECUTABLES
++LOCAL_MODULE_CLASS := ETC
+ LOCAL_SRC_FILES := init.recovery.vold_decrypt.rc
+ LOCAL_MODULE_PATH := $(TARGET_RECOVERY_ROOT_OUT)
+ include $(BUILD_PREBUILT)
