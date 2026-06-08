@@ -2,35 +2,34 @@ on init
     setprop sys.usb.configfs 1
     setprop sys.usb.ffs.aio_compat 1
 
-    # Подготовка папок для TrustKernel и безопасности MTK
+    # Папки безопасности
     mkdir /mnt/vendor 0771 system system
     mkdir /mnt/vendor/protect_f 0770 root system
     mkdir /mnt/vendor/protect_s 0770 root system
     mkdir /mnt/vendor/nvdata 0771 root system
     mkdir /mnt/vendor/nvcfg 0771 root system
     mkdir /mnt/vendor/persist 0771 root system
+    mkdir /metadata 0771 system system
 
 on fs
-    wait /dev/block/platform/bootdevice/by-name/super
+    # Монтируем разделы для работы крипты
     mount_all /etc/recovery.fstab --early
-    restorecon_recursive /system
-    restorecon_recursive /vendor
+    restorecon_recursive /metadata
+    restorecon_recursive /mnt/vendor/persist
 
 on post-fs
+    # Инициализация путей MediaTek
     start mtk_plpath_utils
-    wait /dev/block/mmcblk0boot0 2
-    symlink /dev/block/sda /dev/block/mmcblk0boot0
-    symlink /dev/block/sdb /dev/block/mmcblk0boot1
-
-    # A/B support
-    symlink /dev/block/platform/bootdevice/by-name/preloader_a /dev/block/platform/bootdevice/by-name/preloader_emmc_a
-    symlink /dev/block/platform/bootdevice/by-name/preloader_b /dev/block/platform/bootdevice/by-name/preloader_b
 
 on post-fs-data
-    # Запуск демона TrustKernel (T6)
+    # Даем время на инициализацию железа перед стартом TEE
+    exec u:r:recovery:s0 root root -- /system/bin/sleep 1
+    
+    # Запуск служб крипты в строгом порядке
     start teed
-    # Запуск кеймастера
     start vendor.keymaster-4-0
+    start vendor.keymaster-4-1
+    start gatekeeper-1-0
 
 # --- СЛУЖБЫ КРИПТОГРАФИИ ---
 
@@ -38,10 +37,26 @@ service teed /vendor/bin/teed
     user root
     group root
     disabled
+    oneshot
     seclabel u:r:recovery:s0
 
 service vendor.keymaster-4-0 /vendor/bin/hw/android.hardware.keymaster@4.0-service.mediatek
     user root
     group root
     disabled
+    oneshot
+    seclabel u:r:recovery:s0
+
+service vendor.keymaster-4-1 /vendor/bin/hw/android.hardware.keymaster@4.1-service.mediatek
+    user root
+    group root
+    disabled
+    oneshot
+    seclabel u:r:recovery:s0
+
+service gatekeeper-1-0 /vendor/bin/hw/android.hardware.gatekeeper@1.0-service
+    user root
+    group root
+    disabled
+    oneshot
     seclabel u:r:recovery:s0
