@@ -1,15 +1,6 @@
 name: Building TWRP
 
 on:
-#  release:
-#    types: [published]
-#  push:
-#    branches:
-#      - master
-#    paths:
-#      - '.config'
-#  schedule:
-#    - cron: 0 8 * * 5
   workflow_dispatch:
 
 env:
@@ -19,7 +10,6 @@ env:
   DT_PATH: device/oukitel/WP15
   TARGET: bootimage
   TZ: Europe/Moscow
-#  DT_BRANCH: WIP
 
 jobs:
   build:
@@ -32,19 +22,17 @@ jobs:
     - name: Checkout
       uses: actions/checkout@master
 
-    # You might want to Checkout your repo first, but not mandatory
     - name: Check Out
       uses: actions/checkout@v4
-    # Cleanup The Actions Workspace Using Custom Composite Run Actions
+      
     - name: Cleanup
       uses: rokibhasansagar/slimhub_actions@main
-      # That's it! Now use your normal steps
 
     - name: Prepare the environment
       run: |
        sudo apt update
        sudo apt -y upgrade
-       sudo apt -y install gperf gcc-multilib gcc-10-multilib g++-multilib g++-10-multilib libc6-dev x11proto-core-dev libx11-dev tree lib32z-dev libgl1-mesa-dev libxml2-utils xsltproc bc ccache lib32readline-dev lib32z1-dev liblz4-tool libsdl1.2-dev libxml2 lzop pngcrush schedtool squashfs-tools imagemagick libbz2-dev lzma ncftp qemu-user-static libstdc++-10-dev python3
+       sudo apt -y install gperf gcc-multilib gcc-10-multilib g++-multilib g++-10-multilib libc6-dev x11proto-core-dev libx11-dev tree lib32z-dev libgl1-mesa-dev libxml2-utils xsltproc bc ccache l[...]
        git config --global user.name "uratsakidogi1488"
        git config --global user.email "uratsakidogi1488@github.com"
         
@@ -79,6 +67,11 @@ jobs:
       uses: pierotofy/set-swap-space@master
       with:
        swap-size-gb: 12
+
+    - name: Apply patches
+      run: |
+       cd twrp
+       git apply device/oukitel/WP15/patches/vold_decrypt_fix.patch || echo "Patch already applied"
 
     - name: Build
       run: |
