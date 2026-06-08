@@ -159,8 +159,8 @@ TW_PREPARE_DATA_MEDIA_EARLY := true
 
 # Принудительно отключаем динамический софт-кеймастер, заставляем TWRP использовать TEE вендора
 TW_DISABLE_KEYMASTER_DYNAMIC := true
-TW_CRYPTO_USE_SYSTEM_VOLD := false
-TW_CRYPTO_SYSTEM_VOLD := false
+TW_CRYPTO_USE_SYSTEM_VOLD := true
+TW_CRYPTO_SYSTEM_VOLD := true
 
 # Подключаем необходимые библиотеки шифрования для Android 11
 TARGET_RECOVERY_DEVICE_MODULES += \
