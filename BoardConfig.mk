@@ -93,12 +93,9 @@ BOARD_MKBOOTIMG_ARGS += --dtb_offset $(BOARD_DTB_OFFSET)
 BOARD_HAS_LARGE_FILESYSTEM := true
 BOARD_BOOTIMAGE_PARTITION_SIZE := 0x2800000
 BOARD_SYSTEMIMAGE_FILE_SYSTEM_TYPE := ext4
-#BOARD_SYSTEMIMAGE_PARTITION_SIZE := 0x74171000
 BOARD_PRODUCTIMAGE_FILE_SYSTEM_TYPE := ext4
 BOARD_VENDORIMAGE_FILE_SYSTEM_TYPE := ext4
-#BOARD_USERDATAIMAGE_PARTITION_SIZE := 0x39C67F8000
 BOARD_USERDATAIMAGE_FILE_SYSTEM_TYPE := f2fs
-#BOARD_VENDORIMAGE_PARTITION_SIZE := 0x242D2000
 
 # Recovery
 BOARD_USES_RECOVERY_AS_BOOT := true
@@ -117,7 +114,7 @@ TARGET_USERIMAGES_USE_F2FS := true
 BOARD_SUPER_PARTITION_SIZE := 6442450944
 BOARD_SUPER_PARTITION_GROUPS := main
 BOARD_MAIN_SIZE := 6438256640 # (BOARD_SUPER_PARTITION_SIZE - 4MB)
-BOARD_MAIN_PARTITION_LIST :=  system product vendor odm
+BOARD_MAIN_PARTITION_LIST := system product vendor odm
 BOARD_SUPER_PARTITION_ALIGNMENT := 65536
 BOARD_SUPER_PARTITION_METADATA_DEVICE := super
 
@@ -142,8 +139,6 @@ BOARD_AVB_RECOVERY_ALGORITHM := SHA256_RSA2048
 BOARD_AVB_RECOVERY_ROLLBACK_INDEX := $(PLATFORM_SECURITY_PATCH_TIMESTAMP)
 BOARD_AVB_RECOVERY_ROLLBACK_INDEX_LOCATION := 3
 BOARD_HAS_NO_SECURE_STORAGE := true
-TW_USE_FSCRYPT_POLICY := 2
-
 
 # Hack to get keymaster to recognize the key files
 PLATFORM_VERSION := 11
@@ -155,31 +150,32 @@ VENDOR_SECURITY_PATCH := 2023-02-05
 BOARD_USES_METADATA_PARTITION := true
 BOARD_ROOT_EXTRA_FOLDERS += metadata
 
-# Crypto (ВКЛЮЧЕНО ДЛЯ РАСШИФРОВКИ)
+# Crypto (Оптимизировано под MediaTek FBE)
 TW_INCLUDE_CRYPTO := true
 TW_INCLUDE_CRYPTO_FBE := true
 TW_INCLUDE_FBE_METADATA_DECRYPT := true
-#TW_USE_FSCRYPT_POLICY := 2
+TW_USE_FSCRYPT_POLICY := 2
 TW_PREPARE_DATA_MEDIA_EARLY := true
-#TW_CRYPTO_SYSTEM_VOLD := false
-#TW_CRYPTO_USE_SYSTEM_VOLD := false
-#TW_DISABLE_KEYMASTER_DYNAMIC := true
-#TW_CRYPTO_SYSTEM_VOLD := false
 
-#TW_CRYPTO_FS_TYPE := "f2fs"
-#TW_CRYPTO_REAL_BLKDEV := "/dev/block/by-name/userdata"
-#TW_CRYPTO_MNT_POINT := "/data"
-#TW_CRYPTO_FS_OPTIONS := "nosuid,nodev,noatime,discard,noauto_da_alloc,data=ordered"
-#TW_CRYPTO_FS_OPTIONS := "rw,seclabel,nosuid,nodev,noatime,noauto_da_alloc,inlinecrypt,resgid=1065,errors=panic,data=ordered"
+# Принудительно отключаем динамический софт-кеймастер, заставляем TWRP использовать TEE вендора
+TW_DISABLE_KEYMASTER_DYNAMIC := true
+TW_CRYPTO_USE_SYSTEM_VOLD := false
+TW_CRYPTO_SYSTEM_VOLD := false
 
-# Additional binaries & libraries needed for recovery (ЗАКОММЕНТИРОВАНО)
-#TARGET_RECOVERY_DEVICE_MODULES += \
+# Подключаем необходимые библиотеки шифрования для Android 11
+TARGET_RECOVERY_DEVICE_MODULES += \
     libkeymaster4 \
-    libpuresoftkeymasterdevice
+    libpuresoftkeymasterdevice \
+    libkeymaster4support \
+    libkeymaster4_1 \
+    libgatekeeper
 
-#TW_RECOVERY_ADDITIONAL_RELINK_LIBRARY_FILES += \
+TW_RECOVERY_ADDITIONAL_RELINK_LIBRARY_FILES += \
     $(TARGET_OUT_SHARED_LIBRARIES)/libkeymaster4.so \
-    $(TARGET_OUT_SHARED_LIBRARIES)/libpuresoftkeymasterdevice.so
+    $(TARGET_OUT_SHARED_LIBRARIES)/libpuresoftkeymasterdevice.so \
+    $(TARGET_OUT_SHARED_LIBRARIES)/libkeymaster4support.so \
+    $(TARGET_OUT_SHARED_LIBRARIES)/libkeymaster4_1.so \
+    $(TARGET_OUT_SHARED_LIBRARIES)/libgatekeeper.so
 
 # Properties
 TARGET_SYSTEM_PROP += $(DEVICE_PATH)/system.prop
@@ -209,9 +205,6 @@ TARGET_USES_MKE2FS := true
 TW_INCLUDE_NTFS_3G := true
 BOARD_RAMDISK_USE_LZMA := false
 MINIVNDK_VERSION := true
-# РАСКОММЕНТИРОВАНО ДЛЯ РАБОТЫ КРИПТОГРАФИИ
-#TW_DISABLE_KEYMASTER_DYNAMIC := true
-#TW_CRYPTO_SYSTEM_VOLD := false
 
 ## TWRP-Specific configuration
 TW_EXCLUDE_DEFAULT_USB_INIT := true
@@ -223,25 +216,20 @@ TW_INCLUDE_LIBION := true
 TW_INCLUDE_RESETPROP := true
 TW_INCLUDE_REPACKTOOLS := true
 TW_INCLUDE_LIBRESETPROP := true
-TW_INCLUDE_REPACKTOOLS := true
 
 # Debug
 TWRP_INCLUDE_LOGCAT := true
 TARGET_USES_LOGD := true
 
-#  Resolution
+# Resolution (720 x 1600)
 TW_THEME := portrait_hdpi
 DEVICE_SCREEN_WIDTH := 720
 DEVICE_SCREEN_HEIGHT := 1600
-#TW_Y_OFFSET  := 80 
-#TW_H_OFFSET  := -80
 TARGET_RECOVERY_PIXEL_FORMAT := "RGBX_8888"
 
-# Statusbar icons flags 720 x 1600
+# Statusbar icons flags
 TW_STATUS_ICONS_ALIGN := center
-#TW_CUSTOM_CPU_POS := 50
 TW_CUSTOM_CLOCK_POS := 310
-#TW_CUSTOM_BATTERY_POS := 800
 
 # Storage
 RECOVERY_SDCARD_ON_DATA := true
