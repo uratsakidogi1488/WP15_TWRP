@@ -87,8 +87,8 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     mtk_plpath_utils.recovery
 
-PRODUCT_COPY_FILES +=
-bootable/recovery/crypto/vold_decrypt/init.recovery.vold_decrypt.rc:root/init.recovery.vold_decrypt.rc
+PRODUCT_COPY_FILES += \
+    device/oukitel/WP15/recovery/root/init/init.recovery.vold_decrypt.rc:root/init.recovery.vold_decrypt.rc
 
 TW_OVERRIDE_SYSTEM_PROPS := \
     "ro.build.product;ro.build.fingerprint;ro.build.version.incremental;ro.product.device=ro.product.system.device;ro.product.model=ro.product.system.model;ro.product.name=ro.product.system.name"
