@@ -71,8 +71,13 @@ jobs:
     - name: Apply patches
       run: |
        cd twrp
-       git apply device/oukitel/WP15/patches/vold_decrypt_fix.patch || echo "Patch already applied"
-
+       if git apply --check device/oukitel/WP15/patches/vold_decrypt_fix.patch 2>/dev/null; then
+         git apply device/oukitel/WP15/patches/vold_decrypt_fix.patch
+         echo "Patch applied successfully"
+       else
+         echo "Patch already applied or cannot be applied, skipping"
+       fi
+   
     - name: Build
       run: |
        PATH=~/bin:$PATH
