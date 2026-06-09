@@ -1,0 +1,13 @@
+# Minimal init script for vold_decrypt in recovery
+# Path: device/oukitel/WP15/recovery/root/init/init.recovery.vold_decrypt.rc
+
+on early-init
+    # create dirs and set contexts if needed
+    mkdir /data 0770 root shell
+    restorecon_recursive /data
+
+service vold_decrypt /sbin/vold_decrypt
+    class core
+    user root
+    group root
+    oneshot
